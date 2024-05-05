@@ -1,12 +1,18 @@
-const express = require("express"); 
+const express = require("express");
+const dotenv = require("dotenv");
+const morgan = require("morgan");
+const colors = require("colors");
+const transactions = require("../routes/transactions");
 
-const app = express(); 
-const port = 5000; 
+dotenv.config({ path: "./config/config.env" });
+const app = express();
 
-app.get("/ping", (req, res) => {
-    res.send("First Page of this server")
-})
+app.use("/api/v1/transactions", transactions);
 
-app.listen(port, ()=>{
-    console.log(`Server running on Port: ${port}`)
-})
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on Port: ${PORT}`.yellow.bold
+  );
+});
